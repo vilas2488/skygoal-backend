@@ -76,7 +76,7 @@ router.post("/login", async (req, res) => {
   user.lockUntil = null;
   await user.save();
 
-  const token = jwt.sign({ userId: user.userId }, process.env.JWT_SECRET);
+  const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
   res.json({
     token,
     user: {
