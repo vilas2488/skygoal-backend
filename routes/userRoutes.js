@@ -20,7 +20,8 @@ router.put("/password", auth, async (req, res) => {
 
 
 router.put("/update-password", jwtAuthMiddleware, async (req, res) => {
-  const userId = req.user.userId; // comes from token
+  const userId = req.user._id; // comes from token
+  console.log("userId,",userId)
   const { newPassword } = req.body;
 
   if (!newPassword || newPassword.length < 6) {
@@ -30,7 +31,7 @@ router.put("/update-password", jwtAuthMiddleware, async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     const updatedUser = await User.findOneAndUpdate(
-      { userId }, // match by userId field
+       { _id: userId } , // match by userId field
       { password: hashedPassword }
     );
 
